@@ -21,10 +21,16 @@ LIBS = -lglfw -lGL -lm -lGLU -lGLEW
 OBJ_NAME = bin/main
 
 #This is the target that compiles our executable
-04: $(SRC)
-	$(CC) $(SRC) $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -o bin/04
-all: $(SRC)
-	$(CC) $(SRC) $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -o $(OBJ_NAME)
+all: bin/tut-01
+
+bin:
+	mkdir bin
+
+bin/tut-01: bin $(wildcard 01*.c)
+	$(CC) tut-01*.c $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o bin/tut-01
 
 debug: $(SRC)
 	$(CC) $(SRC) $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o $(OBJ_NAME)
+
+clean:
+	rm -rf ./bin
