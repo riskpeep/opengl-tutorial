@@ -1,6 +1,8 @@
 #SRC specifies which files to compile as part of the project
 SRC = $(wildcard *.c)
 
+BINDIR = bin
+
 #CC specifies which compiler we'll be using
 CC = gcc
 
@@ -21,16 +23,19 @@ LIBS = -lglfw -lGL -lm -lGLU -lGLEW
 OBJ_NAME = bin/main
 
 #This is the target that compiles our executable
-all: bin/tut-01
+all: $(BINDIR)/tut-01 $(BINDIR)/tut-02
 
-bin:
-	mkdir bin
+$(BINDIR):
+	mkdir $(BINDIR)
 
-bin/tut-01: bin $(wildcard 01*.c)
-	$(CC) tut-01*.c $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o bin/tut-01
+$(BINDIR)/tut-01: $(wildcard tut-01*.c) | $(BINDIR)
+	$(CC) tut-01*.c $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o $@
+
+$(BINDIR)/tut-02: $(wildcard tut-02*.c) | $(BINDIR)
+	$(CC) tut-02*.c $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o $@
 
 debug: $(SRC)
 	$(CC) $(SRC) $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o $(OBJ_NAME)
 
 clean:
-	rm -rf ./bin
+	rm -rf ./$(BINDIR)
