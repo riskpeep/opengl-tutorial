@@ -17,10 +17,13 @@
 /* Include GLFW for window and keyboard handling */
 #include <GLFW/glfw3.h>
 
+#include "loadShader.h"
+
 int main()
 {
     GLFWwindow *window; /* In the accompanying source code, this variable is global for simplicity */
     GLuint VertexArrayID;
+    GLuint programID = 0;
 
     /* An array of 3 vectors which represent 3 vertices */
     static const GLfloat g_vertex_buffer_data[] = {
@@ -76,9 +79,17 @@ int main()
     /* Ensure we can capture the escape key being pressed below */
     glfwSetInputMode( window, GLFW_STICKY_KEYS, GL_TRUE );
 
+    /* Create and compile our GLSL program from the shaders */
+    programID = LoadShaders( "SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader" );
+
+    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+
     do{
         /* Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so its there nonetheless. */
-        glClear( GL_COLOR_BUFFER_BIT );
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+        /* Use our shader */
+        glUseProgram(programID);
 
         /* 1st attribute buffer : vertices */
         glEnableVertexAttribArray(0);

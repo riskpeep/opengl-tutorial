@@ -1,5 +1,7 @@
 #SRC specifies which files to compile as part of the project
 SRC = $(wildcard *.c)
+SHADERS = SimpleVertexShader.vertexshader SimpleFragmentShader.fragmentshader
+SHADER_SOURCES = loadShader.c
 
 BINDIR = bin
 
@@ -28,11 +30,11 @@ all: $(BINDIR)/tut-01 $(BINDIR)/tut-02
 $(BINDIR):
 	mkdir $(BINDIR)
 
-$(BINDIR)/tut-01: $(wildcard tut-01*.c) | $(BINDIR)
-	$(CC) tut-01*.c $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o $@
+$(BINDIR)/tut-01: $(wildcard tut-01*.c) $(SHADERS) $(SHADER_SOURCES) | $(BINDIR)
+	$(CC) tut-01*.c $(SHADER_SOURCES) $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o $@
 
-$(BINDIR)/tut-02: $(wildcard tut-02*.c) | $(BINDIR)
-	$(CC) tut-02*.c $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o $@
+$(BINDIR)/tut-02: $(wildcard tut-02*.c) $(SHADERS) $(SHADER_SOURCES) | $(BINDIR)
+	$(CC) tut-02*.c $(SHADER_SOURCES) $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o $@
 
 debug: $(SRC)
 	$(CC) $(SRC) $(INCLUDE) $(COMPILER_FLAGS) $(LIBS) -ggdb -o $(OBJ_NAME)
